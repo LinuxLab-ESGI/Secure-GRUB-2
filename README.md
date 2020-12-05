@@ -1,3 +1,5 @@
+<link href="/style/style.css" rel="stylesheet"></link>
+
 # Securing-GRUB-2
 
 This is a tutorial which explain how to secure the access of GRUB 2 at Linux startup.
@@ -87,15 +89,15 @@ Here we are going to see how to have acess to the machine whitout typing any log
 
 First of all we boot the machine and arrive at the GRUB boot menu :
 
-![Boot Menu Image](/img/BootMenu.png "A very nice and simple Boot Menu")
+![Boot Menu Image](/img/BootMenu.png#center "A very nice and simple Boot Menu")
 
 At this stage press "**e**" to edit the boot option of the kernel :
 
-![Edit Boot Menu Image](/img/EditBootMenu.png "Here we can't choose our favorite text editor xD")
+![Edit Boot Menu Image](/img/EditBootMenu.png#center "Here we can't choose our favorite text editor xD")
 
 Now we go to the line (near the bottom) that contains "**/boot/vmlinuz**..."
 
-![Vmliuz line Image](/img/Vmlinuz.png "Here is our root for the filesystem ^^")
+![Vmliuz line Image](/img/Vmlinuz.png#center "Here is our root for the filesystem ^^")
 
 We just replace "**ro**" (read only) by "**rw**" (read and write) in order to write in the disk and add the init option with the location of shell in argument "**init=/bin/bash**".
 
@@ -103,13 +105,13 @@ Here are telling to the kernel to execute the bash shell (the most commun shell,
 
 Here is the line once modified :
 
-![Vmlinuz modified Image](/img/Vmlinuz2.png "Just simple as that -.-")
+![Vmlinuz modified Image](/img/Vmlinuz2.png#center "Just simple as that -.-")
 
 Now we simply press "**F10**" to boot with the option we've added.
 
 Since the init process is executed with root privileges ... Tada :boom: we have access to the machine with the user root ! You could do anaything you want at this stage :
 
-![Root access Image](/img/Root.png "With great power comes great responsibility")
+![Root access Image](/img/Root.png#center "With great power comes great responsibility")
 
 That's why it is very important to secure our GRUB.
 
