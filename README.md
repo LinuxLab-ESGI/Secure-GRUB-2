@@ -38,9 +38,9 @@ Then, depending of the boot order configured in the BIOS, it loads and executes 
 
 The first 512 bytes of the disk are called the MBR (**M**aster **B**oot **R**ecord). It conatains :
 
-- boot code or bootstrap code which contains informations about the boot loader (446 bytes)
-- partitions table to indesx all the partitions of the disk (64 bytes)
-- boot signature to check if the disk is bootable or not (2 bytes)
+- Boot code or Bootstrap code which contains informations about the boot loader (446 bytes)
+- Partitions table to indesx all the partitions of the disk (64 bytes)
+- Boot signature to check if the disk is bootable or not (2 bytes)
 
 In a nutshell, the MBR is charged of loading and executing the boot loader in our case : GRUB.
 
@@ -95,7 +95,7 @@ At this stage press "**e**" to edit the boot option of the kernel :
 
 Now we go to the line (near the bottom) that contains "**/boot/vmlinuz**..."
 
-![Vmliuz line](/img/Vmlinuz.png "Here is our root for the filesystem ^^")
+![Vmliuz line Image](/img/Vmlinuz.png "Here is our root for the filesystem ^^")
 
 We just replace "**ro**" (read only) by "**rw**" (read and write) in order to write in the disk and add the init option with the location of shell in argument "**init=/bin/bash**".
 
