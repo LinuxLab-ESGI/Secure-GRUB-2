@@ -109,7 +109,7 @@ Now we simply press "**F10**" to boot with the option we've added.
 
 Since the init process is executed with root privileges ... Tada :boom: we have access to the machine with the user root ! You could do anaything you want at this stage :
 
-![Root access Image](/img/root.png "With great power comes great responsibility")
+![Root access Image](/img/Root.png "With great power comes great responsibility")
 
 That's why it is very important to secure our GRUB.
 
