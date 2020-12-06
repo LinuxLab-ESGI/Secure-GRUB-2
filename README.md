@@ -12,6 +12,7 @@ Table of Content
     - [3. GRUB](#3-grub)
     - [4. Kernel](#4-kernel)
     - [5. Init](#5-init)
+    - [Runlevel](#runlevel)
   - [The "flaw" of GRUB](#the-flaw-of-grub)
     - [Access to a shell with root privileges](#access-to-a-shell-with-root-privileges)
   - [Secure GRUB with an encrypted password](#secure-grub-with-an-encrypted-password)
@@ -54,26 +55,54 @@ If we don't do anything at the GRUB screen, it loads and executes automatically 
 
 ### 4. Kernel
 
-Mounts the root file system as specified in the “root=” in grub.conf
-Kernel executes the /sbin/init program
-Since init was the 1st program to be executed by Linux Kernel, it has the process id (PID) of 1. Do a ‘ps -ef | grep init’ and check the pid.
-initrd is used by kernel as temporary root file system until kernel is booted and the real root file system is mounted. It also contains necessary drivers compiled inside, which helps it to access the hard drive partitions, and other hardware.
+The Linux Kernel first mounts the root file system set in grub.conf in the line **root=**.  
+Then it executes the **/sbin/init** program as the fisrt program with root privileges which executes some others scripts.
+
+> **/sbin/init** is actually a symbolic to the init system of the OS. It is either SysV or Systemd. Nowadays systemd is the most used  and it is compatible with SysV init scripts  
+> If it is SysV all the scripts and programs are located in **/etc/systemd/system/** and **/lib/systemd/system/**  
+> So **/sbin/init** is a symbolic link to **/lib/systemd/systemd**
+
+Since init is the first program to be executed by Linux kernel, it has the PID (**Process** **ID**entifier) of 1.  
+We can do a ps command to check the first PID :  
+`ps -ef | grep init`
+
+The kernel then establishes a temporary root file system with initrd until the real file system is mounted. It also contains necessary drivers compiled inside as we saw earlier.
 
 ### 5. Init
 
-Looks at the /etc/inittab file to decide the Linux run level.
-Following are the available run levels
-0 – halt
-1 – Single user mode
-2 – Multiuser, without NFS
-3 – Full multiuser mode
-4 – unused
-5 – X11
-6 – reboot
-Init identifies the default initlevel from /etc/inittab and uses that to load all appropriate program.
-Execute ‘grep initdefault /etc/inittab’ on your system to identify the default run level
-If you want to get into trouble, you can set the default run level to 0 or 6. Since you know what 0 and 6 means, probably you might not do that.
-Typically you would set the default run level to either 3 or 5.
+First the init program reads its initialization files which are in **/etc/init.d/** (/etc/inittab before with SysV). It sets everthing  the system needs for its initialization.  
+Then it set the default run level. A run level is a configuration of processes.
+
+There are 7 run level from 0 to 1 :
+
+- 0 – Halt
+- 1 – Single user mode
+- 2 – Multi-user
+- 3 – Full multi-user mode
+- 4 – Unused
+- 5 – X11 (Full multi-user graphical mode)
+- 6 – Reboot
+
+> To check the current run level you can do :  
+> `who -r`
+> `sudo runlevel`
+> `systemctl get-default` *for systemd*
+> It should normally output the run level 5 or 3
+
+Modern Linux systems use systemmd which refers with this :
+
+- 0 - poweroff.target
+- 1 - rescue.target
+- 3 - multi-user.target
+- 5 - graphical.target
+- 6 - reboot.target
+
+Emergency is matched by emergency.target.
+systemmd will then begin executing runlevel programs.
+
+### Runlevel
+
+
 
 ## The "flaw" of GRUB
 
@@ -83,7 +112,7 @@ As we mentionned earlier, the kernel executes normally the **/sbin/init** progra
 
 Here we are going to see how to have acess to the machine whitout typing any login or password.  
 
->We are working with a simple default Debian 10 with a user account in it.
+> We are working with a simple default Debian 10 with a user account in it.
 
 First of all we boot the machine and arrive at the GRUB boot menu :
 
@@ -95,7 +124,7 @@ At this stage press "**e**" to edit the boot option of the kernel :
 
 Now we go to the line (near the bottom) that contains "**/boot/vmlinuz**..."
 
-![Vmliuz line Image](/img/Vmlinuz.png "Here is our root for the filesystem ^^")
+![Vmliuz line Image](/img/Vmlinuz.png "Here is our root for the file system ^^")
 
 We just replace "**ro**" (read only) by "**rw**" (read and write) in order to write in the disk and add the init option with the location of shell in argument "**init=/bin/bash**".
 
@@ -104,6 +133,15 @@ Here are telling to the kernel to execute the bash shell (the most commun shell,
 Here is the line once modified :
 
 ![Vmlinuz modified Image](/img/Vmlinuz2.png "Just simple as that -.-")
+
+> Here are some options that we can give :  
+>
+> - root=device : specifies the disk where we want to mount the root file system (Exemple : /dev/sdaX, LABEL, UUID
+> - init=binary : specifies the initial program exceuted by the kernel (Normally /sbin/init)  
+> - single : allow to start in single user (root) with minimum services  
+> - ro : the file stystem will be mounted in read-only and do a file system consistency check (fsck)
+> - rw : the file stystem will be mounted in read and write and doesn't do a fsck.
+> - quiet : dont' user verbose mode.
 
 Now we simply press "**F10**" to boot with the option we've added.
 
@@ -115,7 +153,11 @@ That's why it is very important to secure our GRUB.
 
 ## Secure GRUB with an encrypted password
 
-:warning: If someone has physical access to your machine and is able to boot a live USB/disk (i.e., BIOS allows booting from an external disk), it is fairly trivial for one to modify GRUB configuration files to bypass this if /boot resides on an unencrypted partition
+What we are actually doing is to add a login/password to GRUB configuration's files whenever the user wants to edit the boot option.
+
+:warning:  
+If we can boot a live USB/disk on our machine and the partition **/boot** is not encrypted we can easily modify the GRUB configuration to bypass what we did before.  
+So to really secure our GRUB we have to make sure that the **/boot** partition is encrypted.
 
 ## Allow automatic boot
 
