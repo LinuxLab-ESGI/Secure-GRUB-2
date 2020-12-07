@@ -171,7 +171,7 @@ The scripts in **/etc/grub.d** are numbered to be excetuded in a certain order, 
 What we are actually doing is to add a login/password to GRUB configuration's files whenever the user wants to edit the boot option. To do this, we have to add a login and passord in GRUB's configuration. We can add a plain text password but every user could see it by checking GRUB's configuration. To prevent this we are going to add an hashed password with GRUB's tool : `grub-mkpasswd-pbkdf2`  
 This command creates a hashed password readable by GRUB.
 
-Here are the steps to add the login and hashed password :
+**Here are the steps to add the login and hashed password :**
 
 1. Generate the password to **/etc/grub.d/40_custom**
 
@@ -201,6 +201,8 @@ Here are the steps to add the login and hashed password :
     Finally don't forget to update GRUB'configuration :  
     `sudo update-grub2`
 
+    > update-grub2 is actully doing `grub-mkconfig -o /path/to/grub.cfg`
+
     Now evrey time you want to boot using GRUB or edit the boot process, it will ask you a login/password.
 
 > :warning:  
@@ -208,6 +210,9 @@ Here are the steps to add the login and hashed password :
 > So to really secure our GRUB we have to make sure that the **/boot** partition is encrypted.
 
 ## Allow automatic boot
+
+The request of login/password evry boot could be very annoying. So we can tell GRUB to only adk us when we are editing the boot option. For this we just add the unrestricted mode that allow user to boot without asking the password.  
+To do that, we just add "--unrestrited" to the variable CLASS in **/etc/grub.d/10_custom** :
 
 ___
 Author : AnthonyF
