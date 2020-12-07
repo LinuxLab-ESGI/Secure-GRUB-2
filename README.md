@@ -15,7 +15,7 @@ Table of Content
   - [The "flaw" of GRUB](#the-flaw-of-grub)
     - [Access to a shell with root privileges](#access-to-a-shell-with-root-privileges)
   - [GRUB'configuration](#grubconfiguration)
-  - [Secure GRUB with an hashed password](#secure-grub-with-an-hashed-password)
+  - [Secure GRUB with a hashed password](#secure-grub-with-a-hashed-password)
   - [Allow automatic boot](#allow-automatic-boot)
 
 ## GRUB
@@ -166,9 +166,9 @@ The scripts in **/etc/grub.d** are numbered to be excetuded in a certain order, 
 | 30_os-prober    | generate the detected OS                    |
 | 40_custom       | for adding our own input                    |
 
-## Secure GRUB with an hashed password
+## Secure GRUB with a hashed password
 
-What we are actually doing is to add a login/password to GRUB configuration's files whenever the user wants to edit the boot option. To do this, we have to add a login and passord in GRUB's configuration. We can add a plain text password but every user could see it by checking GRUB's configuration. To prevent this we are going to add an hashed password with GRUB's tool : `grub-mkpasswd-pbkdf2`  
+What we are actually doing is to add a login/password to GRUB configuration's files whenever the user wants to edit the boot option. To do this, we have to add a login and passord in GRUB's configuration. We can add a plain text password but every user could see it by checking GRUB's configuration. To prevent this we are going to add a hashed password with GRUB's tool : `grub-mkpasswd-pbkdf2`  
 This command creates a hashed password readable by GRUB.
 
 **Here are the steps to add the login and hashed password :**
