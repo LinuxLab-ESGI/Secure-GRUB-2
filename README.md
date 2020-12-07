@@ -12,7 +12,6 @@ Table of Content
     - [3. GRUB](#3-grub)
     - [4. Kernel](#4-kernel)
     - [5. Init](#5-init)
-    - [Runlevel](#runlevel)
   - [The "flaw" of GRUB](#the-flaw-of-grub)
     - [Access to a shell with root privileges](#access-to-a-shell-with-root-privileges)
   - [Secure GRUB with an encrypted password](#secure-grub-with-an-encrypted-password)
@@ -84,25 +83,21 @@ There are 7 run level from 0 to 1 :
 - 6 – Reboot
 
 > To check the current run level you can do :  
-> `who -r`
-> `sudo runlevel`
-> `systemctl get-default` *for systemd*
+> `who -r`  
+> `sudo runlevel`  
+> `systemctl get-default` *for systemd*  
 > It should normally output the run level 5 or 3
 
 Modern Linux systems use systemmd which refers with this :
 
 - 0 - poweroff.target
 - 1 - rescue.target
-- 3 - multi-user.target
+- 2,3,4 - multi-user.target
 - 5 - graphical.target
 - 6 - reboot.target
 
-Emergency is matched by emergency.target.
-systemmd will then begin executing runlevel programs.
-
-### Runlevel
-
-
+> To set a run level with systemd you can do this command :  
+> `sudo systemctl isolate name.target`  
 
 ## The "flaw" of GRUB
 
