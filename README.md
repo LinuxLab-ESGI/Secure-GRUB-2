@@ -15,7 +15,7 @@ Table of Content
   - [The "flaw" of GRUB](#the-flaw-of-grub)
     - [Access to a shell with root privileges](#access-to-a-shell-with-root-privileges)
   - [GRUB'configuration](#grubconfiguration)
-  - [Secure GRUB with an encrypted password](#secure-grub-with-an-encrypted-password)
+  - [Secure GRUB with an hashed password](#secure-grub-with-an-hashed-password)
   - [Allow automatic boot](#allow-automatic-boot)
 
 ## GRUB
@@ -166,11 +166,42 @@ The scripts in **/etc/grub.d** are numbered to be excetuded in a certain order, 
 | 30_os-prober    | generate the detected OS                    |
 | 40_custom       | for adding our own input                    |
 
-## Secure GRUB with an encrypted password
+## Secure GRUB with an hashed password
 
-What we are actually doing is to add a login/password to GRUB configuration's files whenever the user wants to edit the boot option. To do this, we have to add a login and passord in GRUB's configuration.
+What we are actually doing is to add a login/password to GRUB configuration's files whenever the user wants to edit the boot option. To do this, we have to add a login and passord in GRUB's configuration. We can add a plain text password but every user could see it by checking GRUB's configuration. To prevent this we are going to add an hashed password with GRUB's tool : `grub-mkpasswd-pbkdf2`  
+This command creates a hashed password readable by GRUB.
 
-GRUB has a command to
+Here are the steps to add the login and hashed password :
+
+1. Generate the password to **/etc/grub.d/40_custom**
+
+    `grub-mkpasswd-pbkdf2 | sudo tee -a /etc/grub.d/40_custom`
+
+    Enter two times the password for GRUB and once the password for sudo in order to have the right to write in 40_custom.
+
+    > "| tee -a" will show the output of grub-mkpasswd-pbkdf2 command and append to /etc/grub.d/40_custom
+
+2. Add the login to **/etc/grub.d/40_custom**
+
+    `sudo vim  /etc/grub.d/40_custom`
+
+    > Or nano if you want a simplier text editor
+
+    And add :
+  
+    ```txt
+    set superusers="username"  
+    password_pbkdf2 username hashed_password
+    ```
+
+    It sould look like this :
+
+    ![40_custom Image](/img/40_custom.png "Not the best syntax color")
+
+    Finally don't forget to update GRUB'configuration :  
+    `sudo update-grub2`
+
+    Now evrey time you want to boot using GRUB or edit the boot process, it will ask you a login/password.
 
 > :warning:  
 > If we can boot a live USB/disk on our machine and the partition **/boot** is not encrypted we can easily modify the GRUB configuration to bypass what we did before.  
