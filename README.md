@@ -74,13 +74,15 @@ Then it set the default run level. A run level is a configuration of processes.
 
 There are 7 run level from 0 to 1 :
 
-- 0 – Halt
-- 1 – Single user mode
-- 2 – Multi-user
-- 3 – Full multi-user mode
-- 4 – Unused
-- 5 – X11 (Full multi-user graphical mode)
-- 6 – Reboot
+| Level | Description                          |
+| ----- | ------------------------------------ |
+| 0     | Halt                                 |
+| 1     | Single user mode                     |
+| 2     | Multi-user                           |
+| 3     | Full multi-user mode                 |
+| 4     | Unused                               |
+| 5     | X11 (Full multi-user graphical mode) |
+| 6     | Reboot                               |
 
 > To check the current run level you can do :  
 > `who -r`  
@@ -90,11 +92,13 @@ There are 7 run level from 0 to 1 :
 
 Modern Linux systems use systemmd which refers with this :
 
-- 0 - poweroff.target
-- 1 - rescue.target
-- 2,3,4 - multi-user.target
-- 5 - graphical.target
-- 6 - reboot.target
+| Level | Target            |
+| ----- | ----------------- |
+| 0     | poweroff.target   |
+| 1     | rescue.target     |
+| 2,3,4 | multi-user.target |
+| 5     | graphical.target  |
+| 6     | reboot.target     |
 
 > To set a run level with systemd you can do this command :  
 > `sudo systemctl isolate name.target`  
@@ -153,6 +157,8 @@ What we are actually doing is to add a login/password to GRUB configuration's fi
 :warning:  
 If we can boot a live USB/disk on our machine and the partition **/boot** is not encrypted we can easily modify the GRUB configuration to bypass what we did before.  
 So to really secure our GRUB we have to make sure that the **/boot** partition is encrypted.
+
+
 
 ## Allow automatic boot
 
