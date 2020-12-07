@@ -223,7 +223,7 @@ To do that, we just add "--unrestricted" to the variable CLASS in **/etc/grub.d/
 
 Or you can simply manually add "--unrestricted" by editing the configuration file
 
-It should look like this : 
+It should look like this :
 
 ![Class Image](/img/Class.png "Ahh some nice pink")
 
