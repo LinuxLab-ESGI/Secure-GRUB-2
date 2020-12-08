@@ -21,7 +21,7 @@ Table of Content
 ## GRUB
 
 First of all GNU GRUB (**GR**and **U**nified **B**ootloader) is a boot loader and boot manager from the [GNU Project](https://www.gnu.org/).  
-Excuted after the booting of the BIOS or UEFI it allows user to select in which operating system he wants to boot and it serves in the same time as a Linux boot loader.
+Executed after the booting of the BIOS or UEFI it allows user to select in which operating system he wants to boot and it serves in the same time as a Linux boot loader.
 
 ## Boot process of Linux
 
@@ -29,11 +29,11 @@ They are usually 5 different stages of Linux boot process involved during the st
 
 ### 1. BIOS
 
-The BIOS (**B**asic **I**nput **O**utput **S**ystem) is stored in a memory location of the motherboard called EEPROM (**E**lectrically-**E**rasable **P**rogrammable **R**ead-only **M**emory), the BIOS is a set of functions (written in Assembly Language) which allow the first interaction with the physical material (Hard drives, Keyboard, Mouse, ...).  
+The BIOS (**B**asic **I**nput **O**utput **S**ystem) is stored in a memory location of the motherboard called EEPROM (**E**lectrically-**E**rasable **P**rogrammable **R**ead-only **M**emory). It's a set of functions (written in Assembly Language) which allow the first interaction with the physical material (Hard drives, Keyboard, Mouse, ...).  
 It scans all the internal and external devices and interfaces connected to the motherboard and performs some system integrity checks.  
-Then, depending of the boot order configured in the BIOS, it loads and executes the 512 bytes of the disk, know as the MBR.
+Then, depending of the boot order configured in the BIOS, it loads and executes the 512 bytes of the disk, knonw as the MBR.
 
-> Nowadays the BIOS is replaced by UEFI (**U**nified **E**xtensible **F**irmware **I**nterface) that can act as a boot loader and manager and a replacement of GRUB.
+> Nowadays the BIOS is replaced by UEFI (**U**nified **E**xtensible **F**irmware **I**nterface) that can act as a boot loader, boot manager and a replacement of GRUB. Moreover, UEFI has more adavantages such as : secure boot,  user-friendly interface, support GPT parition, support a large of architecture, ...
 
 ### 2. MBR
 
@@ -51,18 +51,18 @@ Here comes our famous GRUB ! :smile:
 It loads all the available operating system (Linux kernels precisly) or other boot loaders like Windows Boot Manager.
 If we don't do anything at the GRUB screen, it loads and executes automatically the default Linux kernel (vmlinuz) and initrd (inital ramdisk) images.
 
-> Loaded into the RAM, initrd is a filsystem which is used for the Linux startup process. It contains all the additional modules and drivers for the the kernel.
+> Loaded into the RAM, initrd is a file system which is used for the Linux startup process. It contains all the additional modules and drivers for the kernel.
 
 ### 4. Kernel
 
-The Linux Kernel first mounts the root file system set in grub.conf in the line **root=**.  
+The Linux kernel first mounts the root file system set in grub.conf in the line **root=**.  
 Then it executes the **/sbin/init** program as the fisrt program with root privileges which executes some others scripts.
 
-> **/sbin/init** is actually a symbolic to the init system of the OS. It is either SysV or Systemd. Nowadays systemd is the most used  and it is compatible with SysV init scripts  
+> **/sbin/init** is actually a symbolic link to the init system of the OS. It is either SysV or systemd, there are in charged of launching all the necessary services for the OS. Nowadays systemd is the most used  and it is compatible with SysV init scripts.  
 > If it is SysV all the scripts and programs are located in **/etc/systemd/system/** and **/lib/systemd/system/**  
 > So **/sbin/init** is a symbolic link to **/lib/systemd/systemd**
 
-Since init is the first program to be executed by Linux kernel, it has the PID (**Process** **ID**entifier) of 1.  
+Since init is the first program to be executed by Linux kernel, it has the PID (**P**rocess **ID**entifier) of 1.  
 We can do a ps command to check the first PID :  
 `ps -ef | grep init`
 
@@ -91,7 +91,7 @@ There are 7 run level from 0 to 1 :
 > `systemctl get-default` *for systemd*  
 > It should normally output the run level 5 or 3
 
-Modern Linux systems use systemmd which refers with this :
+Modern Linux systems use systemd which refers with this :
 
 | Level | Target            |
 | ----- | ----------------- |
@@ -106,11 +106,11 @@ Modern Linux systems use systemmd which refers with this :
 
 ## The "flaw" of GRUB
 
-As we mentionned earlier, the kernel executes normally the **/sbin/init** program. However we can shortcut this procedure by executing another program instead. For instance we can excute a shell and simply have an acess to the machine with root privileges additionaly. :confused:  
+As we mentionned earlier, the kernel executes normally the **/sbin/init** program. However we can shortcut this procedure by executing another program instead. For instance we can excute a shell that simply gives us an acess to the machine with root privileges on top of that. :confused:  
 
 ### Access to a shell with root privileges
 
-Here we are going to see how to have acess to the machine whitout typing any login or password.  
+Here we are going to see how to have access to the machine whitout typing any login or password.  
 
 > We are working with a simple default Debian 10 with a user account in it.
 
@@ -128,7 +128,7 @@ Now we go to the line (near the bottom) that contains "**/boot/vmlinuz**..."
 
 We just replace "**ro**" (read only) by "**rw**" (read and write) in order to write in the disk and add the init option with the location of shell in argument "**init=/bin/bash**".
 
-Here are telling to the kernel to execute the bash shell (the most commun shell, usually by default) instead of the init program (/sbin/init)
+Here we are telling to the kernel to execute the bash shell (the most commun shell, usually by default) instead of the init program (/sbin/init)
 
 Here is the line once modified :
 
@@ -137,15 +137,15 @@ Here is the line once modified :
 > Here are some options that we can give :  
 >
 > - root=device : specifies the disk where we want to mount the root file system (Exemple : /dev/sdaX, LABEL, UUID
-> - init=binary : specifies the initial program exceuted by the kernel (Normally /sbin/init)  
+> - init=binary : specifies the initial program executed by the kernel (Normally /sbin/init)  
 > - single : allow to start in single user (root) with minimum services  
-> - ro : the file stystem will be mounted in read-only and do a file system consistency check (fsck)
+> - ro : the file system will be mounted in read-only and do a file system consistency check (fsck)
 > - rw : the file stystem will be mounted in read and write and doesn't do a fsck.
-> - quiet : dont' user verbose mode.
+> - quiet : dont' use verbose mode.
 
 Now we simply press "**F10**" to boot with the option we've added.
 
-Since the init process is executed with root privileges ... Tada :boom: we have access to the machine with the user root ! You could do anaything you want at this stage :
+Since the init process is executed with root privileges ... Tada :boom: we have access to the machine with the user root ! You could do anything you want at this stage :
 
 ![Root access Image](/img/Root.png "With great power comes great responsibility")
 
@@ -156,7 +156,7 @@ That's why it is very important to secure our GRUB.
 The file of GRUB's configuration is located in **/boot/grub/grub.cfg** which is generated by **/etc/default/grub** and scripts in **/etc/grub.d/**.  
 However to modify GRUB's configuration we are going to modify only the scripts in **/etc/default/grub** and **/etc/grub.d/** then do `update-grub2` to apply the modification.
 
-The scripts in **/etc/grub.d** are numbered to be excetuded in a certain order, here are some common ones :
+The scripts in **/etc/grub.d** are numbered to be executed in a certain order, here are some common ones :
 
 | Script          | Description                                 |
 | --------------- | ------------------------------------------- |
@@ -201,9 +201,9 @@ This command creates a hashed password readable by GRUB.
     Finally don't forget to update GRUB'configuration :  
     `sudo update-grub2`
 
-    > update-grub2 is actully doing `grub-mkconfig -o /path/to/grub.cfg`
+    > update-grub2 is actually a symbolic link that executes `grub-mkconfig -o /path/to/grub.cfg`
 
-    Now evrey time you want to boot using GRUB or edit the boot process, it will ask you a login/password.
+    Now every time you want to boot using GRUB or edit the boot process, it will ask you a login/password.
 
 > :warning:  
 > If we can boot a live USB/disk on our machine and the partition **/boot** is not encrypted we can easily modify the GRUB configuration to bypass what we did before.  
@@ -211,7 +211,7 @@ This command creates a hashed password readable by GRUB.
 
 ## Allow automatic boot
 
-The request of login/password every boot could be very annoying. So we can tell GRUB to only adk us when we are editing the boot option. For this we just add the unrestricted mode that allow user to boot without asking the password.  
+The request of login/password every boot could be very annoying. To overcome this we can make GRUB to only ask it when we are editing the boot option. For this we just add the unrestricted mode that allow user to boot without asking the password.  
 To do that, we just add "--unrestricted" to the variable CLASS in **/etc/grub.d/10_custom** :
 
 `sudo sed -i 's/class os/class os --unrestricted/' /etc/grub.d/10_linux`
