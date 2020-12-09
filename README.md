@@ -31,7 +31,7 @@ They are usually 5 different stages of Linux boot process involved during the st
 
 The BIOS (**B**asic **I**nput **O**utput **S**ystem) is stored in a memory location of the motherboard called EEPROM (**E**lectrically-**E**rasable **P**rogrammable **R**ead-only **M**emory). It's a set of functions (written in Assembly Language) which allow the first interaction with the physical material (Hard drives, Keyboard, Mouse, ...).  
 It scans all the internal and external devices and interfaces connected to the motherboard and performs some system integrity checks.  
-Then, depending of the boot order configured in the BIOS, it loads and executes the 512 bytes of the disk, knonw as the MBR.
+Then, depending of the boot order configured in the BIOS, it loads and executes the 512 bytes of the disk, known as the MBR.
 
 > Nowadays the BIOS is replaced by UEFI (**U**nified **E**xtensible **F**irmware **I**nterface) that can act as a boot loader, boot manager and a replacement of GRUB. Moreover, UEFI has more adavantages such as : secure boot,  user-friendly interface, support GPT parition, support a large of architecture, ...
 
@@ -40,7 +40,7 @@ Then, depending of the boot order configured in the BIOS, it loads and executes 
 The first 512 bytes of the disk are called the MBR (**M**aster **B**oot **R**ecord). It conatains :
 
 - Boot code or Bootstrap code which contains informations about the boot loader (446 bytes)
-- Partitions table to indesx all the partitions of the disk (64 bytes)
+- Partitions table to index all the partitions of the disk (64 bytes)
 - Boot signature to check if the disk is bootable or not (2 bytes)
 
 In a nutshell, the MBR is charged of loading and executing the boot loader in our case : GRUB.
@@ -48,7 +48,7 @@ In a nutshell, the MBR is charged of loading and executing the boot loader in ou
 ### 3. GRUB
 
 Here comes our famous GRUB ! :smile:  
-It loads all the available operating system (Linux kernels precisly) or other boot loaders like Windows Boot Manager.
+It loads all the available operating system (Linux kernels precisely) or other boot loaders like Windows Boot Manager.
 If we don't do anything at the GRUB screen, it loads and executes automatically the default Linux kernel (vmlinuz) and initrd (inital ramdisk) images.
 
 > Loaded into the RAM, initrd is a file system which is used for the Linux startup process. It contains all the additional modules and drivers for the kernel.
