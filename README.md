@@ -231,4 +231,5 @@ Don't forget to do a `grub-update2` to apply all the changes.
 
 Now the GRUB will ask a login/password only if we are editing the boot configuration.
 ___
+Updated : 12/12/2020
 Author : AnthonyF
