@@ -145,7 +145,7 @@ Here is the line once modified :
 
 Now we simply press "**F10**" to boot with the option we've added.
 
-Since the init process is executed with root privileges ... Tada :boom: we have access to the machine with the user root ! You could do anything you want at this stage :
+Since the init process is executed with root privileges ... Tada :boom: we have access to the machine with the root user ! You could do anything you want at this stage :
 
 ![Root access Image](/img/Root.png "With great power comes great responsibility")
 
@@ -194,7 +194,7 @@ This command creates a hashed password readable by GRUB.
     password_pbkdf2 username hashed_password
     ```
 
-    It sould look like this :
+    It should look like this :
 
     ![40_custom Image](/img/40_custom.png "Not the best syntax color")
 
@@ -231,5 +231,5 @@ Don't forget to do a `grub-update2` to apply all the changes.
 
 Now the GRUB will ask a login/password only if we are editing the boot configuration.
 ___
-Updated : 12/12/2020
+Updated : 29/03/2021
 Author : AnthonyF
