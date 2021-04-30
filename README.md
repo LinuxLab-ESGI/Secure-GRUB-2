@@ -1,6 +1,6 @@
 # Securing-GRUB-2
 
-This is a tutorial which explain how to secure the access of GRUB 2 at Linux startup.
+Tutorial about securing the access of GRUB 2 at Linux startup.
 
 Table of Content
 
