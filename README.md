@@ -212,14 +212,14 @@ This command creates a hashed password readable by GRUB.
 ## Allow automatic boot
 
 The request of login/password every boot could be very annoying. To overcome this we can make GRUB to only ask it when we are editing the boot option. For this we just add the unrestricted mode that allow user to boot without asking the password.  
-To do that, we just add "--unrestricted" to the variable CLASS in **/etc/grub.d/10_custom** :
+To do that, we just add "--unrestricted" to the variable CLASS in **/etc/grub.d/10_custom** :  
 
 `sudo sed -i 's/class os/class os --unrestricted/' /etc/grub.d/10_linux`
 
 `sed` : stream editor, to filter and transorm text  
-`-i` : save the changes in the file
-`'s/word1/word2/'` : replace the word1 by word2
-`/filepath/...` : the file we want to modify
+`-i` : save the changes in the file  
+`'s/word1/word2/'` : replace the word1 by word2  
+`/filepath/...` : the file we want to modify  
 
 Or you can simply manually add "--unrestricted" by editing the configuration file
 
@@ -231,5 +231,6 @@ Don't forget to do a `grub-update2` to apply all the changes.
 
 Now the GRUB will ask a login/password only if we are editing the boot configuration.
 ___
-Updated : 29/03/2021
+Created : 11/28/2020  
+Updated : 03/29/2021  
 Author : AnthonyF
