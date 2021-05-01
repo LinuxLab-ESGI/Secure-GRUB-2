@@ -227,7 +227,7 @@ It should look like this :
 
 ![Class Image](/img/Class.png "Ahh some nice pink")
 
-Don't forget to do a `grub-update2` to apply all the changes.
+Don't forget to do a `sudo update-grub2` to apply all the changes.
 
 Now the GRUB will ask a login/password only if we are editing the boot configuration.
 ___
