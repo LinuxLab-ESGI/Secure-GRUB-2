@@ -110,7 +110,7 @@ As we mentionned earlier, the kernel executes normally the **/sbin/init** progra
 
 ### Access to a shell with root privileges
 
-Here we are going to see how to have access to the machine whitout typing any login or password.  
+Here we are going to see how to have access to the machine without typing any login or password.  
 
 > We are working with a simple default Debian 10 with a user account in it.
 
